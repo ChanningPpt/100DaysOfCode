@@ -31,6 +31,13 @@ resources = {
     "money": 0
 }
 
+# def is_resources_sufficient(order_ingredients):
+#     for ingredient in order_ingredients:
+#         if order_ingredients[ingredient] > resources[ingredient]:
+#             print(f"Sorry, there is not enough {ingredient}")
+#             return False
+#         return True
+
 def insert_coins():
     print("Please insert coins.")
     quarters_amount = int(input("How many quarters?: "))
@@ -41,6 +48,26 @@ def insert_coins():
     total_amount = (quarters_amount * 0.25) + (dimes_amount * 0.10) + (nickles_amount * 0.05) + (pennies_amount * 0.01)
 
     return total_amount
+
+def check_transaction(inserted_money, drink_cost):
+    if inserted_money >= drink_cost:
+        change = round(inserted_money - drink_cost, 2)
+        print(f"Here is ${change} dollars in change.")
+
+        resources["money"] += drink_cost
+        return True
+    else:
+        print("Sorry, that's not enough money. Money refunded.")
+        return False
+
+def make_drink(drink_name, order_ingredients):
+    for ingredient in order_ingredients:
+        if order_ingredients[ingredient] > resources[ingredient]:
+            print(f"Sorry, there is not enough {ingredient}")
+            return False
+        else:
+            resources[ingredient] -= order_ingredients[ingredient]
+            print
 
 coffee_machine_status = True
 
@@ -62,7 +89,7 @@ while coffee_machine_status:
 
                 print("Here is your espresso. Enjoy!")
             else:
-                print("Sorry, that's not enough money. Money refunded.")
+
 
         elif resources["water"] < MENU["espresso"]["ingredients"]["water"]:
             print("Sorry, there is not enough water.")
